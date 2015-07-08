@@ -2,7 +2,8 @@ __author__ = 'tmorales'
 
 import ConfigParser
 
-from .modelAnalitica import Station
+from .model import Station
+from .view import ViewMap
 
 class Controller:
 
@@ -20,6 +21,9 @@ class Controller:
         self.__collection = "stations"
 
         self.__modelStation = Station(self.__host, self.__port)
+        self.__view = ViewMap()
 
-    def geo_station(self, all=False, stations=None):
-        self.__modelStation.geo_staions(self.__db, self.__collection)
+    def geo_station(self, all=False, idStations=None, stateStations=None):
+        cursor = self.__modelStation.geo_stations(self.__db, self.__collection, all=all,
+                                                 idSations=idStations, stateStation=stateStations)
+        self.__view.plot_geoStation(cursor)
